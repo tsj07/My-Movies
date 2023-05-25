@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/margin2"
+        app:cardCornerRadius="10dp"
+        android:outlineAmbientShadowColor="@color/white"
+        android:outlineSpotShadowColor="@color/white"
+        app:cardBackgroundColor="#FFFFFF"
+        app:cardElevation="100dp">
+
+    <RelativeLayout
+        android:id="@+id/rlFav"
+        android:background="@drawable/bg_search_rv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/ivPoster2"
+            android:layout_width="match_parent"
+            android:layout_height="250dp"
+            android:layout_alignParentTop="true"
+            android:layout_centerInParent="true"
+            android:scaleType="centerCrop"
+            android:src="@drawable/img" />
+
+        <LinearLayout
+            android:padding="@dimen/padding2"
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:layout_below="@id/ivPoster2"
+            android:orientation="horizontal">
+
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
+
+                <TextView
+                    android:id="@+id/tvTitle2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
+                    android:maxLines="2"
+                    android:fontFamily="@font/quando"
+                    android:text="The Lord of The Rings: The Fellowship of the Ring "
+                    android:textColor="@color/black"
+                    android:textSize="12sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tvYear2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/tvTitle2"
+                    android:layout_alignStart="@id/tvTitle2"
+                    android:layout_alignLeft="@id/tvTitle2"
+                    android:layout_alignEnd="@id/tvTitle2"
+                    android:layout_alignRight="@id/tvTitle2"
+                    android:fontFamily="@font/abeezee"
+                    android:text="2008"
+                    android:textColor="@color/black"
+                    android:textSize="12sp"
+                    android:textStyle="bold" />
+
+            </RelativeLayout>
+
+            <ImageView
+                android:id="@+id/ivDelete"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginStart="@dimen/margin2"
+                android:layout_marginLeft="@dimen/margin2"
+                android:src="@drawable/delete" />
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+    </androidx.cardview.widget.CardView>
+
+</LinearLayout>
