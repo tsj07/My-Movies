@@ -38,6 +38,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Objects;
 
 public class FavouritesFragment extends Fragment {
     FragmentFavouritesBinding binding;
@@ -158,8 +159,8 @@ public class FavouritesFragment extends Fragment {
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
                 int pos = viewHolder.getAbsoluteAdapterPosition();
                 if (direction == ItemTouchHelper.RIGHT) {
+                    viewModel.deleteByImdbID(Objects.requireNonNull(viewModel.getMoviesList().getValue()).get(pos).getImdbID());
                     viewModel.getMoviesList().observe(requireActivity(), list -> {
-                        viewModel.deleteByImdbID(list.get(pos).getImdbID());
                         if (list.size() > 0) {
                             binding.tvNoMovie.setVisibility(View.GONE);
                             binding.rvFavourites.setVisibility(View.VISIBLE);

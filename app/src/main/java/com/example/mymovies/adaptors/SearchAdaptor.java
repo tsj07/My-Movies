@@ -83,6 +83,12 @@ public class SearchAdaptor extends RecyclerView.Adapter<SearchAdaptor.SearchView
         }
     }
 
+    @SuppressLint("NotifyDataSetChanged")
+    public void setData(List<MoviesEntity> newList) {
+        this.favMovies = newList;
+        notifyDataSetChanged();
+    }
+
     @Override
     public int getItemCount() {
         return list.size();

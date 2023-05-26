@@ -25,25 +25,19 @@ public class MoviesRepository {
     }
 
     void add(MoviesEntity moviesEntity) {
-        Database.databaseWriteExecutor.execute(new Runnable() {
-            @Override
-            public void run() {
-                mDao.add(moviesEntity);
-            }
+        Database.databaseWriteExecutor.execute(() -> {
+            mDao.add(moviesEntity);
         });
     }
 
     void deleteByImdbID(String imdbID) {
-        Database.databaseWriteExecutor.execute(new Runnable() {
-            @Override
-            public void run() {
-                mDao.deleteByImdbID(imdbID);
-            }
+        Database.databaseWriteExecutor.execute(() -> {
+            mDao.deleteByImdbID(imdbID);
         });
     }
 
     int ifIdAlreadyExisted(String imdbIDToCheck) {
-        return  mDao.ifIdAlreadyExisted(imdbIDToCheck);
+        return mDao.ifIdAlreadyExisted(imdbIDToCheck);
     }
 
 }

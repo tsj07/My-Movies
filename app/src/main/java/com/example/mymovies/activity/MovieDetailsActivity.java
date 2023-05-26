@@ -100,22 +100,19 @@ public class MovieDetailsActivity extends AppCompatActivity {
                         binding.ivFavorite.setImageResource(R.drawable.favorite_red);
                     }
 
-                    binding.ivFavorite.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            if (viewModel.ifIdAlreadyExisted(detailsResponse.getImdbID()) == 0) {
-                                viewModel.add(new MoviesEntity(
-                                        detailsResponse.getImdbID(),
-                                        detailsResponse.getTitle(),
-                                        detailsResponse.getYear(),
-                                        detailsResponse.getPoster()));
-                                binding.ivFavorite.setImageResource(R.drawable.favorite_red);
-                                Toast.makeText(getApplicationContext(), "Added to Favorites", Toast.LENGTH_SHORT).show();
-                            } else {
-                                viewModel.deleteByImdbID(detailsResponse.getImdbID());
-                                binding.ivFavorite.setImageResource(R.drawable.ic_favourite);
-                                Toast.makeText(getApplicationContext(), "Removed from favorites", Toast.LENGTH_SHORT).show();
-                            }
+                    binding.ivFavorite.setOnClickListener(v -> {
+                        if (viewModel.ifIdAlreadyExisted(detailsResponse.getImdbID()) == 0) {
+                            viewModel.add(new MoviesEntity(
+                                    detailsResponse.getImdbID(),
+                                    detailsResponse.getTitle(),
+                                    detailsResponse.getYear(),
+                                    detailsResponse.getPoster()));
+                            binding.ivFavorite.setImageResource(R.drawable.favorite_red);
+                            Toast.makeText(getApplicationContext(), "Added to Favorites", Toast.LENGTH_SHORT).show();
+                        } else {
+                            viewModel.deleteByImdbID(detailsResponse.getImdbID());
+                            binding.ivFavorite.setImageResource(R.drawable.ic_favourite);
+                            Toast.makeText(getApplicationContext(), "Removed from favorites", Toast.LENGTH_SHORT).show();
                         }
                     });
 

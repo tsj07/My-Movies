@@ -18,21 +18,17 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 
 import com.example.mymovies.Debounce;
 import com.example.mymovies.R;
 import com.example.mymovies.activity.MovieDetailsActivity;
-import com.example.mymovies.adaptors.FavouritesAdaptor;
 import com.example.mymovies.adaptors.SearchAdaptor;
 import com.example.mymovies.databinding.FragmentSearchBinding;
 import com.example.mymovies.model.Search;
 import com.example.mymovies.model.SearchResponse;
 import com.example.mymovies.retrofit.RetrofitClient;
-import com.example.mymovies.room.Database;
-import com.example.mymovies.room.MoviesDAO;
 import com.example.mymovies.room.MoviesEntity;
 import com.example.mymovies.viewmodel.MoviesRepository;
 import com.example.mymovies.viewmodel.MoviesViewModel;
@@ -122,18 +118,20 @@ public class SearchFragment extends Fragment {
         Call<SearchResponse> responseCall = RetrofitClient.getInstance().getMyApi().getSearchData(mName);
         responseCall.enqueue(new Callback<SearchResponse>() {
             @Override
-            public void onResponse(Call<SearchResponse> call, Response<SearchResponse> response) {
+            public void onResponse(@NonNull Call<SearchResponse> call, @NonNull Response<SearchResponse> response) {
                 Activity activity = getActivity();
                 if (isAdded() && activity != null) {
                     SearchResponse searchResponse = response.body();
                     if (searchResponse != null) {
                         if (searchResponse.getResponse().equals("True")) {
-                            adaptor = new SearchAdaptor(moviesList, searchResponse.getSearch(), requireActivity(), searchListener());
-                            binding.rvSearch.setAdapter(adaptor);
-                            binding.rvSearch.setLayoutManager(new GridLayoutManager(requireActivity(), 2));
-                            binding.progressBarSearch.setVisibility(View.GONE);
-                            binding.rvSearch.setVisibility(View.VISIBLE);
-                            binding.tvNoMovieFound.setVisibility(View.GONE);
+                            viewModel.getMoviesList().observe(requireActivity(), list -> {
+                                adaptor = new SearchAdaptor(list, searchResponse.getSearch(), requireActivity(), searchListener());
+                                binding.rvSearch.setAdapter(adaptor);
+                                binding.rvSearch.setLayoutManager(new GridLayoutManager(requireActivity(), 2));
+                                binding.progressBarSearch.setVisibility(View.GONE);
+                                binding.rvSearch.setVisibility(View.VISIBLE);
+                                binding.tvNoMovieFound.setVisibility(View.GONE);
+                            });
                         } else {
                             binding.llNextPage.setVisibility(View.GONE);
                             binding.tvNoMovieFound.setVisibility(View.VISIBLE);
@@ -146,7 +144,7 @@ public class SearchFragment extends Fragment {
             }
 
             @Override
-            public void onFailure(Call<SearchResponse> call, Throwable t) {
+            public void onFailure(@NonNull Call<SearchResponse> call, Throwable t) {
                 Toast.makeText(requireActivity(), "Failed", Toast.LENGTH_SHORT).show();
             }
         });
@@ -156,16 +154,18 @@ public class SearchFragment extends Fragment {
         Call<SearchResponse> responseCall = RetrofitClient.getInstance().getMyApi().getNewPageData(name, page);
         responseCall.enqueue(new Callback<SearchResponse>() {
             @Override
-            public void onResponse(Call<SearchResponse> call, Response<SearchResponse> response) {
+            public void onResponse(@NonNull Call<SearchResponse> call, @NonNull Response<SearchResponse> response) {
                 Activity activity = getActivity();
                 if (isAdded() && activity != null) {
                     SearchResponse searchResponse = response.body();
                     if (searchResponse != null) {
                         if (searchResponse.getResponse().equals("True")) {
-                            adaptor = new SearchAdaptor(moviesList,searchResponse.getSearch(), requireActivity(), searchListener());
-                            binding.rvSearch.setAdapter(adaptor);
-                            binding.rvSearch.setLayoutManager(new GridLayoutManager(requireActivity(), 2));
-                            binding.rvSearch.setVisibility(View.VISIBLE);
+                            viewModel.getMoviesList().observe(requireActivity(), list -> {
+                                adaptor = new SearchAdaptor(list, searchResponse.getSearch(), requireActivity(), searchListener());
+                                binding.rvSearch.setAdapter(adaptor);
+                                binding.rvSearch.setLayoutManager(new GridLayoutManager(requireActivity(), 2));
+                                binding.rvSearch.setVisibility(View.VISIBLE);
+                            });
                         } else
                             binding.rvSearch.setVisibility(View.GONE);
                     } else
